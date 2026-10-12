@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en"><head><!-- REVERIE — GLASS / BLACK
+Standalone HTML. White background with an oversized solid-black opening butterfly.
+The opening butterfly transforms into smaller butterflies from its own wings.
+A small, layered butterfly flight reveals products when a category is selected.
+The category viewer skips the original logo intro; product switching is unchanged.
+Skip/reduced-motion state resets, focus and navigation handling are checked.
+Five categories include the 12 original products and two knitwear designs.
+Knitwear has two designs and five colour choices per design. Individual images use lossless WebP with unchanged pixels. The Signature black back retains its earlier supplied image. Colour changes crossfade in a fixed, normalized frame.
+The product viewer's original style and script are preserved; a prelude selects
+that category's slides. Product animations are the original attachment's code.
+The product document with updated images is embedded below as JSON.
+-->
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#ffffff"><title>Reverie</title><meta name="description" content="Reverie. Long sleeves, Knitwear, Sweaters, T-shirts, Hoodies.">
+<style>/* REVERIE — WHITE FLIGHT */
+:root{color-scheme:light;--ink:#080808;--serif:'Bodoni MT',Didot,'Times New Roman',serif;--sans:Arial,Helvetica,sans-serif}
+*{box-sizing:border-box}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#fff;color:var(--ink)}
+body{font-family:var(--sans);-webkit-font-smoothing:antialiased}
+button{padding:0;border:0;background:none;color:inherit;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible{outline:none;text-decoration:underline;text-underline-offset:9px}
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.svg-library{position:absolute;width:0;height:0;overflow:hidden}[hidden]{display:none!important}.quiet{color:#777}
+#reverie{position:relative;width:100%;height:100vh;height:100svh;overflow:hidden;background:#fff;isolation:isolate}
+.intro-flight{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.entrance{position:absolute;inset:0;z-index:4;cursor:pointer;outline:none;touch-action:manipulation}
+.enter-title{position:absolute;top:3svh;left:0;right:0;margin:0;text-align:center;font:400 min(25vw,25svh)/.73 var(--serif);letter-spacing:-.066em;pointer-events:none;user-select:none}
+.enter-title>span{display:block}.enter-line{display:block;width:max-content;margin:0 auto;padding-right:.035em;white-space:nowrap}.enter-line+.enter-line{margin-top:.045em}.enter-letter{display:inline-block;will-change:transform,opacity}
+.enter-letter{color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:.8px rgba(0,0,0,.55);background:linear-gradient(125deg,rgba(0,0,0,.22),rgba(0,0,0,.015) 33%,rgba(0,0,0,.10) 52%,transparent 68%,rgba(0,0,0,.24));-webkit-background-clip:text;background-clip:text}
+.entry-cue{position:absolute;bottom:2.4svh;left:calc(50% - 22px);width:44px;text-align:center;font-size:24px;color:#777;opacity:.65}.entrance:hover .entry-cue,.entrance:focus-visible .entry-cue{opacity:1}
+.selection{position:absolute;inset:0;visibility:hidden;opacity:0;background:#fff;z-index:1}
+.site-header{position:absolute;inset:0 0 auto;display:flex;align-items:center;padding:24px 3.5vw;z-index:3}
+.brand-link,.brand-lockup{display:inline-flex;align-items:center;gap:13px;height:44px}.brand-mark{width:40px;height:36px}.wordmark{font:400 24px/.9 var(--serif);letter-spacing:-.06em}
+.selection-menu{position:absolute;inset:16svh 6vw 12svh;display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:center;gap:5vw}
+.category{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1 1 0;min-width:0;min-height:64px;font:400 clamp(24px,2.8vw,44px)/1.1 var(--serif);letter-spacing:-.045em;text-align:center;white-space:nowrap;color:var(--ink);will-change:transform,opacity}
+.category-picture{display:block;width:100%;height:min(52svh,35vw,470px);margin-bottom:27px;transition:transform .65s cubic-bezier(.16,1,.3,1);filter:drop-shadow(0 4px 6px #00000013)}
+.category-picture svg{display:block;width:100%;height:100%;overflow:hidden}
+.category-name{display:inline-block;transition:opacity .35s}.category-arrow{position:absolute;left:0;right:0;top:calc(100% + 15px);font:300 22px/1 var(--sans);color:#555;opacity:0;transform:translateY(5px);transition:opacity .35s,transform .5s}
+.category:hover .category-picture,.category:focus-visible .category-picture{transform:translateY(-5px)}.category:hover .category-name{opacity:.65}.category:hover .category-arrow,.category:focus-visible .category-arrow{opacity:1;transform:none}
+.motion-tools{position:absolute;bottom:18px;left:3.5vw;z-index:10;display:flex;gap:10px}.motion-tools button{display:grid;place-items:center;width:44px;height:44px;color:#777;font-size:12px}.motion-tools button:hover,.motion-tools button:focus-visible{color:#000}.motion-tools svg{width:17px;height:17px;fill:currentColor}.motion-tools:has(#skip-intro:not([hidden])){right:3.5vw;left:auto}#reverie[data-state=catalogue] .motion-tools{display:none}
+.collection-dialog{position:fixed;inset:0;width:100vw;max-width:none;height:100vh;height:100svh;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink);overflow:hidden}.collection-dialog::backdrop{background:transparent}
+.dialog-shell{position:absolute;inset:0;display:flex;flex-direction:column;background:#fff;opacity:0}
+.collection-dialog[data-busy=true] .dialog-shell{pointer-events:none}
+.product-frame{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;background:#fff}.product-close{position:absolute;right:3.5vw;top:27px;z-index:3;width:44px;height:44px;font-size:30px;font-weight:200;line-height:1;background:#fff;color:#080808}.collection-dialog[data-busy=true] .product-close{pointer-events:none}
+@media(max-width:700px){
+ .enter-title{top:7svh;font-size:min(26vw,25svh);line-height:.76}.entry-cue{bottom:6svh}.site-header{padding:17px 22px}.brand-mark{width:34px;height:30px}.wordmark{font-size:23px}
+ .selection-menu{inset:16svh 4vw 12svh;gap:3vw}.category{font-size:5.1vw;min-height:64px;letter-spacing:-.045em}.category-picture{height:39vw;margin-bottom:19px}.category-arrow{font-size:19px;top:calc(100% + 12px)}
+ .motion-tools{bottom:15px;left:15px}
+ .product-close{right:10px;top:19px}
+}
+@media(max-height:540px) and (min-width:701px){.site-header{padding:12px 25px}.selection-menu{inset:19svh 6vw 8svh}.category{font-size:24px}.category-picture{height:42svh;margin-bottom:12px}.product-close{top:9px}.motion-tools{bottom:8px}.entry-cue{bottom:2svh}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.enter-letter,.category{will-change:auto}}
+@media(forced-colors:active){.enter-letter{color:CanvasText;-webkit-text-fill-color:CanvasText;-webkit-text-stroke:0;background:none}}
+
+/* Keyboard focus and a usable entrance if Canvas is unavailable. */
+.entrance:focus-visible{outline:1px solid #888;outline-offset:-12px}
+.no-canvas .entrance:after{content:'ENTER REVERIE';position:absolute;inset:0;display:grid;place-items:center;color:#080808;font:400 clamp(30px,8vw,100px) var(--serif)}
+
+
+/* Four image categories, kept on one line at every viewport size. */
+.selection-menu{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3.5vw}
+.category{font-size:clamp(20px,2.4vw,38px)}
+.category-picture{height:min(48svh,24vw,360px)}
+@media(max-width:700px){.selection-menu{inset:16svh 4vw 12svh;gap:1.5vw}.category{font-size:clamp(12px,3.3vw,20px);letter-spacing:-.045em}.category-picture{height:26vw;margin-bottom:17px}}
+
+/* Five distinct collections, including sweaters and two knitwear designs. */
+.selection-menu{grid-template-columns:repeat(5,minmax(0,1fr));gap:2.5vw}
+.category{font-size:clamp(18px,2.05vw,33px)}
+.category-picture{height:min(45svh,20vw,320px)}
+@media(max-width:700px){.selection-menu{gap:1vw}.category{font-size:clamp(11px,2.65vw,18px);letter-spacing:-.035em}.category-picture{height:21vw;margin-bottom:14px}}
+
+.category[data-collection="1"] .category-picture{background:#fff}
+</style></head><body><svg class="svg-library" aria-hidden="true"><defs><mask id="brand-mask" x="0" y="0" width="1920" height="1080" maskUnits="userSpaceOnUse" style="mask-type:luminance"><image href="assets/inline-image-01.webp" width="1920" height="1080"/></mask><g id="brand-art"><rect width="1920" height="1080" fill="currentColor" mask="url(#brand-mask)"/></g><g id="product-2"><image width="1920" height="1080" href="assets/inline-image-02.png"/></g><g id="product-6"><image width="1920" height="1080" href="assets/inline-image-03.png"/></g><g id="product-0"><image width="1920" height="1080" href="assets/inline-image-04.png"/></g><g id="product-11"><image width="1920" height="1080" href="assets/inline-image-05.png"/></g><g id="product-12"><image id="knitwear-cover" width="1254" height="1254"/></g></defs></svg>
+<main id="reverie" data-state="waiting">
+<canvas id="intro-flight" class="intro-flight" aria-hidden="true"></canvas>
+<section id="entrance" class="entrance" role="button" aria-label="Enter Reverie" tabindex="0" aria-describedby="enter-help"><h1 class="sr-only">Reverie</h1><p id="enter-help" class="sr-only">Click or tap the butterfly, or press Enter, to enter Reverie.</p></section>
+<section id="catalogue" class="selection" aria-labelledby="catalogue-title" inert><header class="site-header"><button id="replay" class="brand-link" aria-label="Replay entrance"><svg class="brand-mark" viewBox="748 326 555 442" aria-hidden="true"><use href="#brand-art"/></svg><span class="wordmark" aria-hidden="true">REVERIE</span></button><h2 id="catalogue-title" class="sr-only" tabindex="-1">Choose a collection</h2></header><p id="collection-status" class="sr-only" role="status" aria-live="polite"></p><div class="selection-menu"><button class="category" data-collection="0" aria-label="Open Long sleeves"><span class="category-picture"><svg viewBox="417 271 537 526" aria-hidden="true"><use href="#product-2"/></svg></span><span class="category-name">Long sleeves</span><span class="category-arrow" aria-hidden="true">↗</span></button><button class="category" data-collection="1" aria-label="Open Knitwear"><span class="category-picture"><svg viewBox="28 161 1199 920" aria-hidden="true"><use href="#product-12"/></svg></span><span class="category-name">Knitwear</span><span class="category-arrow" aria-hidden="true">↗</span></button><button class="category" data-collection="2" aria-label="Open Sweaters"><span class="category-picture"><svg viewBox="418 275 543 536" aria-hidden="true"><use href="#product-6"/></svg></span><span class="category-name">Sweaters</span><span class="category-arrow" aria-hidden="true">↗</span></button><button class="category" data-collection="3" aria-label="Open T-shirts"><span class="category-picture"><svg viewBox="432 249 525 583" aria-hidden="true"><use href="#product-0"/></svg></span><span class="category-name">T-shirts</span><span class="category-arrow" aria-hidden="true">↗</span></button><button class="category" data-collection="4" aria-label="Open Hoodies"><span class="category-picture"><svg viewBox="334 166 625 639" aria-hidden="true"><use href="#product-11"/></svg></span><span class="category-name">Hoodies</span><span class="category-arrow" aria-hidden="true">↗</span></button></div></section>
+<div class="motion-tools"><button id="skip-intro" aria-label="Skip introduction" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 5 10 7-10 7zM19 5v14"/></svg></button><button id="motion-control" aria-pressed="false" aria-label="Pause animation"><span aria-hidden="true">Ⅱ</span></button></div>
+<dialog class="collection-dialog" id="collection-dialog" aria-labelledby="dialog-title"><h2 id="dialog-title" class="sr-only">Collection</h2><div class="dialog-shell" id="dialog-shell"><iframe class="product-frame" id="product-frame" title="Reverie product collection" sandbox="allow-scripts allow-same-origin"></iframe><button class="product-close" id="close-dialog" aria-label="Back to collections"><span aria-hidden="true">×</span></button></div></dialog></main>
+<noscript><p style="position:fixed;inset:0;z-index:100;background:white;padding:40px;text-align:center">Please enable JavaScript to view Reverie.</p></noscript><script id="knitwear-image-data" type="application/json"></script>
+<script>
+window.__reverieDataReady = Promise.all([
+  fetch('assets/knitwear-image-data.json').then(response => {
+    if (!response.ok) throw new Error('Could not load knitwear image data: ' + response.status);
+    return response.text();
+  }),
+  fetch('assets/original-product-document.json').then(response => {
+    if (!response.ok) throw new Error('Could not load product document: ' + response.status);
+    return response.text();
+  })
+]).then(([assetsJson, productJson]) => {
+  document.getElementById('knitwear-image-data').textContent = assetsJson;
+  document.getElementById('original-product-document').textContent = productJson;
+});
+</script>
+<script src="js/knitwear-cover.js"></script>
+<script id="original-product-document" type="application/json"></script><script src="js/gsap.js"></script><script src="js/reverie.js"></script><!--
+REVERIE — THIRD-PARTY NOTICES
+
+GSAP 3.15.0
+Copyright 2008–2026 GreenSock. Standard license: https://gsap.com/standard-license/
+The original GSAP distribution header is preserved.
+
+
+Lenis 1.3.26
+The MIT License
+
+Copyright (c) 2024 darkroom.engineering
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Swup 4.10.0
+MIT License
+
+Copyright (c) 2017 Georgy Marchuk
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+Vanta 0.5.24
+Copyright 2020 Teng Bao
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+React Bits — Magnet, TiltedCard and SplitText adaptations
+MIT + Commons Clause License Condition v1.0
+
+Copyright (c) 2026 David Haz
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, and distribute the Software **as part of an application, website, or product**, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+## Commons Clause Restriction
+
+You may use this Software, including for any commercial purpose, **so long as you do not sell, sublicense, or redistribute the components themselves-whether alone, in a bundle, or as a ported version.**
+
+## No Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+delegate-it
+MIT License
+
+Copyright (c) Federico Brigante <me@fregante.com> (https://fregante.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+path-to-regexp
+The MIT License (MIT)
+
+Copyright (c) 2014 Blake Embrey (hello@blakeembrey.com)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+--></body></html>
